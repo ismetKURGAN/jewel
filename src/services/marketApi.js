@@ -1,3 +1,5 @@
+import { io } from 'socket.io-client';
+
 const HAREM_WS_URL = 'wss://socketweb.haremaltin.com:443';
 
 export const marketApi = {
@@ -18,48 +20,48 @@ export const marketApi = {
     }
   },
 
-  connectHaremWebSocket: (onMessage, onError) => {
-    let ws = null;
-    let reconnectTimeout = null;
+  connectHaremSocket: (onMessage, onError) => {
+    let socket = null;
 
-    const connect = () => {
-      try {
-        ws = new WebSocket(HAREM_WS_URL);
+    try {
+      socket = io(HAREM_WS_URL, { 
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionDelay: 5000,
+      });
 
-        ws.onopen = () => {
-          console.log('Harem Altın WebSocket connected');
-        };
+      socket.on('connect', () => {
+        console.log('Harem Altın Socket.IO connected');
+      });
 
-        ws.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data);
-            if (onMessage) onMessage(data);
-          } catch (e) {
-            console.error('Error parsing Harem data:', e);
+      socket.on('price_changed', (payload) => {
+        try {
+          if (payload && payload.data) {
+            if (onMessage) onMessage(payload.data);
           }
-        };
+        } catch (e) {
+          console.error('Error parsing Harem data:', e);
+        }
+      });
 
-        ws.onerror = (error) => {
-          console.error('Harem WebSocket error:', error);
-          if (onError) onError(error);
-        };
+      socket.on('connect_error', (error) => {
+        console.error('Harem Socket.IO error:', error);
+        if (onError) onError(error);
+      });
 
-        ws.onclose = () => {
-          console.log('Harem WebSocket closed, reconnecting in 5s...');
-          reconnectTimeout = setTimeout(connect, 5000);
-        };
-      } catch (e) {
-        console.error('Error connecting to Harem WebSocket:', e);
-        if (onError) onError(e);
-      }
-    };
-
-    connect();
+      socket.on('disconnect', () => {
+        console.log('Harem Socket.IO disconnected');
+      });
+    } catch (e) {
+      console.error('Error connecting to Harem Socket.IO:', e);
+      if (onError) onError(e);
+    }
 
     return {
       close: () => {
-        if (reconnectTimeout) clearTimeout(reconnectTimeout);
-        if (ws) ws.close();
+        if (socket) {
+          socket.disconnect();
+        }
       }
     };
   }

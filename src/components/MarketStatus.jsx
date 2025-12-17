@@ -14,7 +14,7 @@ const MarketStatus = () => {
   const [lastUpdate, setLastUpdate] = useState(null);
   const [error, setError] = useState(null);
   const [showSourceMenu, setShowSourceMenu] = useState(false);
-  const wsRef = useRef(null);
+  const socketRef = useRef(null);
 
   const fetchTruncgilRates = async () => {
     try {
@@ -44,7 +44,9 @@ const MarketStatus = () => {
   useEffect(() => {
     if (source === 'harem') {
       setLoading(true);
-      wsRef.current = marketApi.connectHaremWebSocket(
+      setError(null);
+      
+      socketRef.current = marketApi.connectHaremSocket(
         (data) => {
           if (data && typeof data === 'object') {
             setHaremRates(prev => ({ ...prev, ...data }));
@@ -60,14 +62,20 @@ const MarketStatus = () => {
       );
 
       return () => {
-        if (wsRef.current) {
-          wsRef.current.close();
+        if (socketRef.current) {
+          socketRef.current.close();
         }
       };
     }
   }, [source]);
 
   const handleSourceChange = (newSource) => {
+    if (socketRef.current) {
+      socketRef.current.close();
+      socketRef.current = null;
+    }
+    setHaremRates({});
+    setRates(null);
     setSource(newSource);
     setShowSourceMenu(false);
     setLoading(true);
@@ -84,12 +92,12 @@ const MarketStatus = () => {
 
   const haremItems = [
     { key: 'ALTIN', label: 'Gram Altın', icon: 'grade' },
-    { key: 'CEYREK_YENI', label: 'Çeyrek Altın', icon: 'monetization_on' },
+    { key: 'CEYREK_YENI', label: 'Çeyrek', icon: 'monetization_on' },
+    { key: 'YARIM_YENI', label: 'Yarım', icon: 'monetization_on' },
+    { key: 'TEK_YENI', label: 'Tam', icon: 'monetization_on' },
     { key: 'USDTRY', label: 'Dolar', icon: 'attach_money' },
     { key: 'EURTRY', label: 'Euro', icon: 'euro' },
-    { key: 'ONS', label: 'Ons Altın', icon: 'token' },
-    { key: 'YARIM_YENI', label: 'Yarım Altın', icon: 'monetization_on' },
-    { key: 'TEK_YENI', label: 'Tam Altın', icon: 'monetization_on' },
+    { key: 'ONS', label: 'Ons', icon: 'token' },
   ];
 
   const renderTruncgilData = () => {
@@ -144,7 +152,9 @@ const MarketStatus = () => {
           const buyPrice = rateData?.alis ? formatHaremPrice(rateData.alis) : '---';
           const sellPrice = rateData?.satis ? formatHaremPrice(rateData.satis) : '---';
           const dir = rateData?.dir;
-          const changeColor = dir === 'up' ? 'text-green-400' : dir === 'down' ? 'text-red-400' : 'text-text-secondary-dark';
+          const alisDir = dir?.alis_dir;
+          const satisDir = dir?.satis_dir;
+          const changeColor = satisDir === 'up' ? 'text-green-400' : satisDir === 'down' ? 'text-red-400' : 'text-text-secondary-dark';
 
           return (
             <div key={item.key} className="bg-background-dark p-3 rounded-lg border border-border-dark">
@@ -155,9 +165,9 @@ const MarketStatus = () => {
               <div className="flex flex-col">
                 <div className="flex justify-between items-end">
                   <span className="text-base font-bold text-text-primary-dark">{sellPrice}</span>
-                  {dir && (
+                  {satisDir && (
                     <span className={`material-symbols-outlined text-sm ${changeColor}`}>
-                      {dir === 'up' ? 'arrow_upward' : 'arrow_downward'}
+                      {satisDir === 'up' ? 'arrow_upward' : 'arrow_downward'}
                     </span>
                   )}
                 </div>
@@ -186,6 +196,7 @@ const MarketStatus = () => {
   }
 
   const currentSource = SOURCES[source];
+  const sourceColorClass = source === 'harem' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400';
 
   return (
     <div className="bg-surface-dark rounded-xl p-6 border border-border-dark mb-6">
@@ -193,7 +204,7 @@ const MarketStatus = () => {
         <h2 className="text-xl font-bold text-text-primary-dark flex items-center gap-2">
           <span className="material-symbols-outlined text-blue-400">trending_up</span>
           Canlı Piyasa
-          <span className={`text-xs px-2 py-1 rounded-full bg-${currentSource.color}-500/20 text-${currentSource.color}-400`}>
+          <span className={`text-xs px-2 py-1 rounded-full ${sourceColorClass}`}>
             {currentSource.label}
           </span>
         </h2>
@@ -217,7 +228,7 @@ const MarketStatus = () => {
                   <button
                     key={s.id}
                     onClick={() => handleSourceChange(s.id)}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition-colors flex items-center gap-2 ${
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition-colors flex items-center gap-2 first:rounded-t-lg last:rounded-b-lg ${
                       source === s.id ? 'text-primary' : 'text-text-primary-dark'
                     }`}
                   >
