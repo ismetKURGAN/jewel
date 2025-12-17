@@ -1,0 +1,182 @@
+{
+  "gramItems": [
+    {
+      "id": "592b",
+      "weight": 1.52,
+      "fineness": 910,
+      "date": "2025-12-12T14:33:35.881Z"
+    },
+    {
+      "id": "9532",
+      "weight": 3.4,
+      "fineness": 916,
+      "date": "2025-12-12T15:00:00.883Z"
+    },
+    {
+      "id": "52b4",
+      "weight": 6.4,
+      "fineness": 585,
+      "date": "2025-12-16T09:06:50.413Z"
+    },
+    {
+      "id": "3881",
+      "weight": 4,
+      "fineness": 999,
+      "date": "2025-12-16T09:07:09.493Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Pırlanta Alyans Seti",
+      "sku": "DWS-001",
+      "quantity": 2,
+      "price": 45000,
+      "category": "Alyans",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuChrzXDkDfED5HW45jo0lKDg7EiiH2FgOquFB_fRGRb-3ZMTJNnadYO5P7Sgddo_phyVXDyRVy4nslnkFrn29-ZUE6Lgy3pf7AsZ48TrK7t9EMpqHlTS5ByxV-ot8G3tD0p9dI_TgFCuL_ixhOwMnw83_aM-QTuOSMhfBZxB1FanUJFkPDob_Hqdcp5t-_p3PRVAWLislYXFFAKRUpnaJA0nebCo47fZjkw3Ci3bBVdKPBalMVrgS3DRq0_G90dYDeFqaRiePvrgw8"
+    },
+    {
+      "id": "2",
+      "name": "Safir Küpe & Kolye Seti",
+      "sku": "SENS-002",
+      "quantity": 2,
+      "price": 32500,
+      "category": "Kolye & Küpe",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuALSqK1xwDYeMVWDUyFykhCBDVyisLXXoeg0ulQd2QVjIUv37vpNAqbOWMZXc8NYbyLYMi-SGsj2gUkBvf6XhVsuIxdzkGPOloxFhcwjRc9RV3u1DWf0uxUjrOpnxMOOKeQkS04YDbNrCKdE5GrJYTkqIiFwIncl2Jokl51513E0ngIUX_YGK19sBBRWdZ-BOgJgZlTFcaQ63oktQwNq0Q41rwzUfGhAj3px4ZJJ4H-kPEGwdexOT1w2wo16Bbl8JdXXpmjmx7KjAo"
+    },
+    {
+      "id": "3",
+      "name": "Altın Bilezik Seti",
+      "sku": "GBS-003",
+      "quantity": 3,
+      "price": 21600,
+      "category": "Bilezik",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCGSnwE9L6ADL6UCWLc-hvrpg0kv2dROyCUIG8lgGUWDgOlDf03-QYIt5qfHjNMtg1w7o5EqSU9og1iB1lu5_JTyhIksABZvfNctpxITUQ4WZofNAt_MVGMt7VavDMt-ZvR9PhWjE1eN5LxE02TuMMcj8fitS6EUXvQxiexddtuSOuS6gceH7N_it6qILnW4ZFOVcS3x4dewgQ2RIQbhaOx9Y4iSrXwtfRuCXfcR8mwsTfyuatYFyvIesQskK_r0Za8uXhG3khWXdw"
+    },
+    {
+      "id": "4",
+      "name": "İnci Bileklik & Gerdanlık Kombini",
+      "sku": "PBC-004",
+      "quantity": 2,
+      "price": 17100,
+      "category": "Kolye & Küpe",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAcXW18P5xykVwsraM-fjp9M1E3sUgA9XjvmXofuwQWCXDTu0I_VXWFgExvXUfxQNw8zgJeW4nMBrIX_0_nGyJqVLuJ6YWpeVzbVdTuDtO-pUQ6H1e_K9tDorNjYRg1eMmjjr_QwXO6yT_dPUk6CM845QwGh1ZjBasi-EdcJf_Cl8aPp9nCMByW5pqs_2nJHhbnjU_6bDUMSz-4Ze7ndupWwn0UoayaQ18nC2-P4Uzfic9XLHO9_ADb6wIMOovQ9Omy_rA6EhJnUm0"
+    }
+  ],
+  "gold": {
+    "quarter": 16,
+    "half": 7,
+    "full": 2
+  },
+  "cash": {
+    "tl": 200100,
+    "usd": 1501,
+    "eur": 750
+  },
+  "finance": [
+    {
+      "id": "1",
+      "type": "receivable",
+      "name": "Ahmet Yılmaz",
+      "amount": 15000,
+      "date": "2023-11-01"
+    },
+    {
+      "id": "2",
+      "type": "debt",
+      "name": "Toptancı A",
+      "amount": 45000,
+      "date": "2023-11-05"
+    },
+    {
+      "id": "1765699111866",
+      "type": "debt",
+      "name": "deneme",
+      "amount": 350000,
+      "date": "2026-12-02",
+      "description": ""
+    },
+    {
+      "id": "1765699370208",
+      "type": "receivable",
+      "name": "İsmet KURGAN",
+      "amount": 120000,
+      "date": "2026-03-05",
+      "description": ""
+    }
+  ],
+  "farmExpenses": [
+    {
+      "id": "1",
+      "type": "Yem",
+      "amount": 300000,
+      "date": "2023-10-25",
+      "description": "Kışlık Yem"
+    }
+  ],
+  "farmDebts": [
+    {
+      "id": "1",
+      "creditor": "Çiftlik Sahibi",
+      "amount": 300000,
+      "dueDate": "2024-01-01",
+      "status": "pending"
+    }
+  ],
+  "transactions": [],
+  "dailyReports": [
+    {
+      "id": "1765742400057",
+      "date": "2025-12-14",
+      "generatedAt": "2025-12-14T20:00:00.057Z",
+      "cashBalance": {
+        "tl": 200100,
+        "usd": 1501,
+        "eur": 750
+      },
+      "goldBalance": {
+        "quarter": 16,
+        "half": 7,
+        "full": 2
+      },
+      "ziynetSummary": {
+        "totalWeight": 66.5,
+        "totalHas": 60.914,
+        "details": {
+          "quarter": {
+            "count": 16,
+            "weight": 28
+          },
+          "half": {
+            "count": 7,
+            "weight": 24.5
+          },
+          "full": {
+            "count": 2,
+            "weight": 14
+          }
+        }
+      },
+      "gramSummary": {
+        "itemCount": 2,
+        "totalHas": 4.4976
+      },
+      "transactionCount": 0,
+      "transactions": [],
+      "overdueReceivables": [
+        {
+          "id": "1",
+          "type": "receivable",
+          "name": "Ahmet Yılmaz",
+          "amount": 15000,
+          "date": "2023-11-01"
+        }
+      ],
+      "warnings": [
+        "1 adet vadesi geçmiş/bugüne kadar olan alacak var.",
+        "Bugün işlem kaydı yapılmadı."
+      ],
+      "reportText": "═══════════════════════════════════════════════════════════════\n                    GÜNLÜK RAPOR\n                    14.12.2025\n═══════════════════════════════════════════════════════════════\n\n📅 Rapor Oluşturma: 14.12.2025 20:00:00\n\n───────────────────────────────────────────────────────────────\n                    KASA DURUMU\n───────────────────────────────────────────────────────────────\nTL:  ₺200.100\nUSD: $1.501\nEUR: €750\n\n───────────────────────────────────────────────────────────────\n                    ZİYNET ALTIN STOKU\n───────────────────────────────────────────────────────────────\nÇeyrek: 16 adet (28.00 gr)\nYarım:  7 adet (24.50 gr)\nTam:    2 adet (14.00 gr)\nToplam Brüt: 66.50 gr\nToplam Has (916 milyem): 60.91 gr\n\n───────────────────────────────────────────────────────────────\n                    GRAM ALTIN\n───────────────────────────────────────────────────────────────\nToplam Kayıt: 2 adet\nToplam Has: 4.50 gr\n\nDetay:\n  - 1.52 gr (910 milyem) = 1.38 gr has\n  - 3.4 gr (916 milyem) = 3.11 gr has\n\n───────────────────────────────────────────────────────────────\n                    GÜNLÜK İŞLEMLER\n───────────────────────────────────────────────────────────────\nBugün işlem yapılmadı.\n\n───────────────────────────────────────────────────────────────\n              ⚠️ VADESİ GEÇEN ALACAKLAR\n───────────────────────────────────────────────────────────────\n• Ahmet Yılmaz: ₺15.000 (Vade: 2023-11-01)\n\n───────────────────────────────────────────────────────────────\n                    ⚠️ UYARILAR\n───────────────────────────────────────────────────────────────\n• 1 adet vadesi geçmiş/bugüne kadar olan alacak var.\n• Bugün işlem kaydı yapılmadı.\n\n═══════════════════════════════════════════════════════════════\n                    RAPOR SONU\n═══════════════════════════════════════════════════════════════\n"
+    }
+  ]
+}
