@@ -7,7 +7,7 @@ const SOURCES = {
 };
 
 const MarketStatus = () => {
-  const [source, setSource] = useState('truncgil');
+  const [source, setSource] = useState('harem');
   const [rates, setRates] = useState(null);
   const [haremRates, setHaremRates] = useState({});
   const [loading, setLoading] = useState(true);
