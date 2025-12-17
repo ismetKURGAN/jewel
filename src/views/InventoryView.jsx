@@ -2,11 +2,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import CashRegister from '../components/CashRegister';
 import GoldInventory from '../components/GoldInventory';
 import { api } from '../services/api';
+import { marketApi } from '../services/marketApi';
+
+const CACHE_KEY = 'goldPriceCache';
+const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 saat (günde 4 kez)
 
 const InventoryView = () => {
   const [cash, setCash] = useState({ tl: 0, usd: 0, eur: 0 });
   const [goldCounts, setGoldCounts] = useState({ quarter: 0, half: 0, full: 0 });
   const [gramItems, setGramItems] = useState([]);
+  const [goldPrice, setGoldPrice] = useState(null);
+  const [priceLastUpdate, setPriceLastUpdate] = useState(null);
 
   const ZIYNET_FINENESS = 916;
   const ZIYNET_WEIGHTS = {
@@ -17,6 +23,7 @@ const InventoryView = () => {
 
   useEffect(() => {
     loadData();
+    loadGoldPrice();
     const interval = setInterval(loadData, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -34,6 +41,55 @@ const InventoryView = () => {
     } catch (e) {
       console.error('Error loading inventory data:', e);
     }
+  };
+
+  const loadGoldPrice = () => {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { price, timestamp } = JSON.parse(cached);
+        const age = Date.now() - timestamp;
+        if (age < CACHE_DURATION && price) {
+          setGoldPrice(price);
+          setPriceLastUpdate(new Date(timestamp));
+          return;
+        }
+      }
+    } catch (e) {
+      console.error('Error reading cache:', e);
+    }
+
+    fetchGoldPrice();
+  };
+
+  const fetchGoldPrice = () => {
+    const socket = marketApi.connectHaremSocket(
+      (data) => {
+        if (data && data.ALTIN && data.ALTIN.satis) {
+          const price = parseFloat(data.ALTIN.satis);
+          if (!isNaN(price)) {
+            setGoldPrice(price);
+            setPriceLastUpdate(new Date());
+            try {
+              localStorage.setItem(CACHE_KEY, JSON.stringify({
+                price,
+                timestamp: Date.now()
+              }));
+            } catch (e) {
+              console.error('Error saving cache:', e);
+            }
+            socket.close();
+          }
+        }
+      },
+      (err) => {
+        console.error('Error fetching gold price:', err);
+      }
+    );
+
+    setTimeout(() => {
+      socket.close();
+    }, 10000);
   };
 
   const gramSummary = useMemo(() => {
@@ -69,6 +125,19 @@ const InventoryView = () => {
     return { ziynetTotalWeight, ziynetHas24k, grandHas24k };
   }, [ziynetRows, gramSummary.totalHas24k]);
 
+  const estimatedValue = useMemo(() => {
+    if (!goldPrice || !totals.grandHas24k) return null;
+    return totals.grandHas24k * goldPrice;
+  }, [goldPrice, totals.grandHas24k]);
+
+  const formatCurrency = (val) => {
+    return new Intl.NumberFormat('tr-TR', { 
+      style: 'currency', 
+      currency: 'TRY',
+      maximumFractionDigits: 0 
+    }).format(val || 0);
+  };
+
   return (
     <div className="flex flex-col h-full w-full">
       <header className="p-6 border-b border-border-dark">
@@ -77,6 +146,40 @@ const InventoryView = () => {
       </header>
 
       <main className="flex-1 p-6 overflow-y-auto space-y-6">
+        {/* Toplam Değer Kartı */}
+        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/10 rounded-xl p-6 border border-yellow-500/30">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-medium text-text-secondary-dark flex items-center gap-2">
+                <span className="material-symbols-outlined text-yellow-400">diamond</span>
+                Toplam Altın Değeri
+              </h2>
+              <div className="mt-2 flex items-baseline gap-3">
+                <span className="text-4xl font-bold text-yellow-400">{totals.grandHas24k.toFixed(2)}</span>
+                <span className="text-xl text-text-secondary-dark">gr has (24K)</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-text-secondary-dark">Güncel Tahmini Değer</p>
+              {estimatedValue ? (
+                <p className="text-3xl font-bold text-green-400">{formatCurrency(estimatedValue)}</p>
+              ) : (
+                <p className="text-xl text-text-secondary-dark">Hesaplanıyor...</p>
+              )}
+              {goldPrice && (
+                <p className="text-xs text-text-secondary-dark mt-1">
+                  Gram Altın: {goldPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
+                  {priceLastUpdate && (
+                    <span className="ml-2">
+                      ({priceLastUpdate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })})
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <CashRegister />
           <GoldInventory />
@@ -160,7 +263,7 @@ const InventoryView = () => {
                 ]).map((c) => (
                   <tr key={c.key} className="border-t border-border-dark/60">
                     <td className="px-4 py-3 text-text-primary-dark font-medium">{c.label}</td>
-                    <td className="px-4 py-3 text-text-primary-dark font-mono">{c.value}</td>
+                    <td className="px-4 py-3 text-text-primary-dark font-mono">{c.value.toLocaleString('tr-TR')}</td>
                     <td className="px-4 py-3 text-text-secondary-dark font-mono">-</td>
                     <td className="px-4 py-3 text-text-secondary-dark font-mono">-</td>
                     <td className="px-4 py-3 text-text-primary-dark font-mono">-</td>
