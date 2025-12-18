@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ currentView, onViewChange }) => {
+const Sidebar = ({ currentView, onViewChange, user, onLogout }) => {
   const menuItems = [
     { id: 'dashboard', icon: 'dashboard', label: 'Ana Panel' },
     { id: 'inventory', icon: 'inventory_2', label: 'Envanter' },
@@ -8,6 +8,9 @@ const Sidebar = ({ currentView, onViewChange }) => {
     { id: 'farm', icon: 'agriculture', label: 'Çiftlik' },
     { id: 'report', icon: 'assessment', label: 'Günlük Rapor' },
   ];
+
+  const displayName = user?.username || 'Kullanıcı';
+  const roleLabel = user?.role === 'admin' ? 'Yönetici' : 'Kullanıcı';
 
   return (
     <div className="flex h-screen w-64 flex-col bg-surface-dark border-r border-border-dark">
@@ -36,14 +39,23 @@ const Sidebar = ({ currentView, onViewChange }) => {
       </nav>
 
       <div className="border-t border-border-dark p-4">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-            A
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold uppercase">
+              {displayName.charAt(0)}
+            </div>
+            <div>
+              <p className="text-sm font-medium text-text-primary-dark">{displayName}</p>
+              <p className="text-xs text-text-secondary-dark">{roleLabel}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-medium text-text-primary-dark">Admin</p>
-            <p className="text-xs text-text-secondary-dark">Yönetici</p>
-          </div>
+          <button
+            onClick={onLogout}
+            className="p-2 text-text-secondary-dark hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            title="Çıkış Yap"
+          >
+            <span className="material-symbols-outlined">logout</span>
+          </button>
         </div>
       </div>
     </div>

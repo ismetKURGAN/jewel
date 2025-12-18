@@ -146,40 +146,6 @@ const InventoryView = () => {
       </header>
 
       <main className="flex-1 p-6 overflow-y-auto space-y-6">
-        {/* Toplam Değer Kartı */}
-        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/10 rounded-xl p-6 border border-yellow-500/30">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-medium text-text-secondary-dark flex items-center gap-2">
-                <span className="material-symbols-outlined text-yellow-400">diamond</span>
-                Toplam Altın Değeri
-              </h2>
-              <div className="mt-2 flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-yellow-400">{totals.grandHas24k.toFixed(2)}</span>
-                <span className="text-xl text-text-secondary-dark">gr has (24K)</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-text-secondary-dark">Güncel Tahmini Değer</p>
-              {estimatedValue ? (
-                <p className="text-3xl font-bold text-green-400">{formatCurrency(estimatedValue)}</p>
-              ) : (
-                <p className="text-xl text-text-secondary-dark">Hesaplanıyor...</p>
-              )}
-              {goldPrice && (
-                <p className="text-xs text-text-secondary-dark mt-1">
-                  Gram Altın: {goldPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
-                  {priceLastUpdate && (
-                    <span className="ml-2">
-                      ({priceLastUpdate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })})
-                    </span>
-                  )}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <CashRegister />
           <GoldInventory />
@@ -287,6 +253,40 @@ const InventoryView = () => {
                 </tr>
               </tfoot>
             </table>
+          </div>
+        </div>
+
+        {/* Toplam Değer Kartı - En Altta */}
+        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/10 rounded-xl p-6 border border-yellow-500/30">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-medium text-text-secondary-dark flex items-center gap-2">
+                <span className="material-symbols-outlined text-yellow-400">diamond</span>
+                Toplam Altın Değeri
+              </h2>
+              <div className="mt-2 flex items-baseline gap-3">
+                <span className="text-4xl font-bold text-yellow-400">{totals.grandHas24k.toFixed(2)}</span>
+                <span className="text-xl text-text-secondary-dark">gr has (24K)</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-text-secondary-dark">Güncel Tahmini Değer</p>
+              {estimatedValue ? (
+                <p className="text-3xl font-bold text-green-400">{formatCurrency(estimatedValue)}</p>
+              ) : (
+                <p className="text-xl text-text-secondary-dark">Hesaplanıyor...</p>
+              )}
+              {goldPrice && (
+                <p className="text-xs text-text-secondary-dark mt-1">
+                  Gram Altın: {goldPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺
+                  {priceLastUpdate && (
+                    <span className="ml-2">
+                      ({priceLastUpdate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })})
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </main>
