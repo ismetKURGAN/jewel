@@ -65,6 +65,8 @@ async function proxy(req, res, targetBase, stripPrefix) {
 
   const headers = { ...req.headers };
   delete headers.host;
+  delete headers.connection;
+  delete headers.upgrade;
 
   let body;
   const method = (req.method || 'GET').toUpperCase();
