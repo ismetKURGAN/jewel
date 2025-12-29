@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ currentView, onViewChange, user, onLogout }) => {
+const Sidebar = ({ currentView, onViewChange, user, onLogout, onClose }) => {
   const menuItems = [
     { id: 'dashboard', icon: 'dashboard', label: 'Ana Panel' },
     { id: 'inventory', icon: 'inventory_2', label: 'Envanter' },
@@ -14,8 +14,16 @@ const Sidebar = ({ currentView, onViewChange, user, onLogout }) => {
 
   return (
     <div className="flex h-screen w-64 flex-col bg-surface-dark border-r border-border-dark">
-      <div className="flex items-center justify-center h-16 border-b border-border-dark">
+      <div className="flex items-center justify-between h-16 border-b border-border-dark px-4">
         <h1 className="text-xl font-bold text-primary tracking-wider">MÜCEVHERAT</h1>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden p-2 text-text-secondary-dark hover:text-text-primary-dark hover:bg-white/5 rounded-lg transition-colors"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        )}
       </div>
       
       <nav className="flex-1 overflow-y-auto py-4">
